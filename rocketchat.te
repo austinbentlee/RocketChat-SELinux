@@ -1,0 +1,65 @@
+policy_module(rocketchat, 1.0)
+
+require {
+	type unconfined_t;
+
+	type bin_t;
+	type cgroup_t;
+	type proc_t;
+	type tmp_t;
+
+	type http_port_t;
+	type mongod_port_t;
+	type ntop_port_t;
+}
+
+type rocketchat_t; #generic type 
+type rocketchat_files_t; #label used for /opt/Rocket.Chat(/.*)?
+type rocketchat_service_t; #label used for the node executable
+
+init_daemon_domain(rocketchat_t, rocketchat_service_t);
+#permissive rocketchat_t; #uncomment this to debug access. 
+
+
+
+allow rocketchat_t self:capability { chown setgid setuid };
+allow rocketchat_t self:process { fork setrlimit signal_perms };
+allow rocketchat_t self:fifo_file rw_fifo_file_perms;
+allow rocketchat_t self:unix_stream_socket create_stream_socket_perms;
+
+domain_use_interactive_fds(rocketchat_t)
+
+files_read_etc_files(rocketchat_t)
+
+auth_use_nsswitch(rocketchat_t)
+
+logging_send_syslog_msg(rocketchat_t)
+
+miscfiles_read_localization(rocketchat_t)
+
+sysnet_dns_name_resolve(rocketchat_t)
+
+
+allow rocketchat_t bin_t:file { execute execute_no_trans };
+allow rocketchat_t cgroup_t:dir search;
+allow rocketchat_t cgroup_t:file { open read };
+
+#!!!! This avc can be allowed using the boolean 'nis_enabled'
+allow rocketchat_t http_port_t:tcp_socket name_connect;
+allow rocketchat_t mongod_port_t:tcp_socket name_connect;
+allow rocketchat_t ntop_port_t:tcp_socket name_bind;
+allow rocketchat_t proc_t:file { getattr open read };
+
+allow rocketchat_t rocketchat_files_t:dir { getattr open read };
+
+allow rocketchat_t rocketchat_files_t:file { execute getattr map open read };
+allow rocketchat_t rocketchat_files_t:lnk_file read;
+allow rocketchat_t rocketchat_files_t:dir search;
+allow rocketchat_t self:process execmem; #damn you nodejs!
+
+#!!!! This avc can be allowed using the boolean 'nis_enabled'
+allow rocketchat_t self:tcp_socket { accept listen };
+allow rocketchat_t tmp_t:dir { add_name create remove_name setattr write };
+
+allow rocketchat_t tmp_t:file { create execute unlink write };
+
