@@ -27,7 +27,7 @@ rm tmp/rocketchat.mod tmp/rocketchat.mod.fc
 
 # Installing Policy
 
-WARNING: The installation script will temporarily put SELinux into Permissive mode. Exercise extreme caution if you are running this on a production system. Ensure you check `getenforce` after running. 
+**WARNING: The installation script will temporarily put SELinux into Permissive mode. Exercise extreme caution if you are running this on a production system. Ensure you check `getenforce` after running.**
 
 ```sh
 [root@localhost SELinux-RocketChat]# systemctl stop rocketchat
@@ -70,4 +70,21 @@ Jul 16 14:14:13 localhost.localdomain rocketchat[2485]: ➔ +-------------------
 Enforcing
 [root@localhost SELinux-RocketChat]#
 ```
+
+We're good to go!
+
+# Supporting Additional Plugins
+In a nutshell, you'll want to do the following:
+
+1. `setenforce 0`
+2. Thoroughly your application with the new plugin enabled.
+3. `./getDenys.sh`
+4. Review generated policy rules
+5. Add required policy rules to `rocketchat.te`
+6. `./compilePolicy.sh`
+7. `systemctl stop rocketchat`
+8. `./installPolicy.sh`
+9. Enforcement mode is now enabled (if it isn't, then enable it.)
+9. `systemctl start rocketchat`
+10. Verify application plugin functions correctly.
 
