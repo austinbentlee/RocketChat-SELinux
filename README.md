@@ -1,5 +1,5 @@
 # SELinux-RocketChat
-A SELinux policy which confines RocketChat to only be able to use what it needs. The purpose of this is to segregate RocketChat, in case the application is compromised, the compromise is limited to RocketChat. This is for the default install of RocketChat -- plugins/etc will have to be evaluated separately. 
+This SELinux policy confines RocketChat to only be able to use what it needs. The purpose of this is to segregate RocketChat, in case the application is compromised, the compromise is limited to RocketChat. This is for the default install of RocketChat -- plugins/etc will have to be evaluated separately. 
 
 # RocketChat Install
 
@@ -13,7 +13,7 @@ yum install selinux-policy-devel
 ```
 
 Once you have that installed, you can run the following:
-```
+```sh
 [root@localhost SELinux-RocketChat]# ./createMakefile.sh # if you are not running CentOS, your makefile is probably in a different location.
 [root@localhost SELinux-RocketChat]# ./compilePolicy.sh 
 Compiling targeted rocketchat module
@@ -29,7 +29,7 @@ rm tmp/rocketchat.mod tmp/rocketchat.mod.fc
 
 WARNING: The installation script will temporarily put SELinux into Permissive mode. Exercise extreme caution if you are running this on a production system. Ensure you check `getenforce` after running. 
 
-```
+```sh
 [root@localhost SELinux-RocketChat]# systemctl stop rocketchat
 [root@localhost SELinux-RocketChat]# ./installPolicy.sh 
 Removing existing policy, if any...
