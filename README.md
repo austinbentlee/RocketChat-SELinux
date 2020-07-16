@@ -14,7 +14,7 @@ yum install selinux-policy-devel
 
 Once you have that installed, you can run the following:
 ```
-[root@localhost SELinux-RocketChat]# ./createMakefile.sh # # if you are not running CentOS, your makefile is probably in a different location.
+[root@localhost SELinux-RocketChat]# ./createMakefile.sh # if you are not running CentOS, your makefile is probably in a different location.
 [root@localhost SELinux-RocketChat]# ./compilePolicy.sh 
 Compiling targeted rocketchat module
 /usr/bin/checkmodule:  loading policy configuration from tmp/rocketchat.tmp
