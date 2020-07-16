@@ -1,4 +1,4 @@
-# SELinux-RocketChat
+# RocketChat-SELinux
 This SELinux policy confines RocketChat to only be able to use what it needs. The purpose of this is to segregate RocketChat, in case the application is compromised, the compromise is limited to RocketChat. This is for the default install of RocketChat -- plugins/etc will have to be evaluated separately (see the bottom section.)
 
 # RocketChat Install
